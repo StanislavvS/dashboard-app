@@ -4,7 +4,7 @@ on:
     types: [opened, reopened]
 jobs:
   build-and-test:
-  runs-on: [statndard]
+  runs-on: ubuntu-latest
   steps:
     - name: setup cache
       id: cache-setup
