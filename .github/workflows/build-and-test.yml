@@ -7,6 +7,8 @@ jobs:
     name: Build and Test
     runs-on: ubuntu-latest
     steps:
+      - name: checkout repo
+        uses: actions/checkout@v2
       - name: install backend dependecies
         working-directory: backend
         run: npm install
