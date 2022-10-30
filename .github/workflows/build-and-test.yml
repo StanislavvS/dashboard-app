@@ -7,15 +7,7 @@ jobs:
     name: Build and Test
     runs-on: ubuntu-latest
     steps:
-      - name: setup cache
-        id: cache-setup
-        uses: actions/cache@v2
-        with:
-        path: |
-          backend/node_modules
-          key: ${{ runner.os }}-deps-${{ hashFiles('backend/package.json') }}
       - name: install backend dependecies
-        if: steps.cache-setup.outputs.cache-hit != 'true'
         working-directory: backend
         run: npm install
       - name: build backend
