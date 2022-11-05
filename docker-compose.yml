@@ -1,0 +1,46 @@
+version: "3.7"
+
+volumes:
+  db_data:
+
+services:
+  db:
+    image: mongo:latest
+    container_name: dashboard-app-mongo
+    restart: always
+    volumes:
+      - ./backend/database/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    ports:
+      - 27017:27017
+    environment:
+      - ./.env
+
+  backend:
+    build: ./backend
+    container_name: dashboard-app-backend
+    env_file:
+      - ./.env
+    volumes:
+      - ./backend:/backend/
+    depends_on:
+      - db
+
+  frontend:
+    build: ./frontend
+    container_name: dashboard-app-frontend
+    env_file:
+      - ./.env
+
+    volumes:
+      - ./frontend:/frontend
+
+  nginx:
+    build: ./nginx
+    container_name: dashboard-app-nginx
+    env_file:
+      - ./.env
+    ports:
+      - 8080:80
+    depends_on:
+      - frontend
+      - backend

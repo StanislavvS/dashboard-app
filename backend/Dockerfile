@@ -13,4 +13,4 @@ RUN apt-get -y update
 RUN apt-get install -y openssl
 
 
-CMD ["npm", "run", "start:dev"]
+CMD ["npm", "run", "start"]
