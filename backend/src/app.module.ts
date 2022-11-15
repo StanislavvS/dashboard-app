@@ -3,16 +3,16 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { RegisterController } from './register/register.controller';
-import { RegisterService } from './register/register.service';
+import { RegisterModule } from './register/register.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: '.env',
     }),
+    RegisterModule,
   ],
-  controllers: [AppController, RegisterController],
-  providers: [AppService, RegisterService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
