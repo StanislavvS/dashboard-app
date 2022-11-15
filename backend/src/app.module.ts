@@ -11,6 +11,9 @@ import { RegisterModule } from './register/register.module';
       envFilePath: '.env',
     }),
     RegisterModule,
+    MongooseModule.forRoot(
+      `mongodb+srv://${process.env.DATABASE_USER}:${process.env.DATABASE_PWD}@cluster0.fwxripz.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority/`,
+    ),
   ],
   controllers: [AppController],
   providers: [AppService],
