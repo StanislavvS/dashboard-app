@@ -32,4 +32,4 @@ export class User {
   password: string;
 }
 
-export const AuthFactory = SchemaFactory.createForClass(User);
+export const UserSchema = SchemaFactory.createForClass(User);
