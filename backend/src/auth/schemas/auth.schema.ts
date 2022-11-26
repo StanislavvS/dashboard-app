@@ -2,11 +2,11 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import validator from 'validator';
 
-export type AuthDocument = HydratedDocument<User>;
+export type UserDocument = HydratedDocument<User>;
 
 @Schema()
 export class User {
-  @Prop({ required: true, trim: true })
+  @Prop({ required: true, trim: true, unique: true })
   login: string;
   @Prop({
     unique: true,
@@ -21,11 +21,13 @@ export class User {
   email: string;
   @Prop({
     required: true,
-    minlength: 7,
     trim: true,
     validate(value) {
-      if (value.toLowerCase().includes('password')) {
-        throw new Error('Password cannot contain "password"');
+      const regex =
+        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+
+      if (!regex.test(value)) {
+        throw new Error('Password is not valid');
       }
     },
   })

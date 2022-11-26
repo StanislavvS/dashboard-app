@@ -7,6 +7,6 @@ export class AuthController {
 
   @Post('/register')
   async registerUser(@Body() user) {
-    this.authService.getUserInfo(user);
+    return this.authService.createUser(user);
   }
 }
