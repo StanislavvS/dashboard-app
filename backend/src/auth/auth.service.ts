@@ -21,4 +21,9 @@ export class AuthService {
 
     return (await updatedUser).save();
   }
+
+  async deleteUser(id: string): Promise<User> {
+    const removedUser = await this.userModel.findByIdAndDelete(id);
+    return removedUser;
+  }
 }
