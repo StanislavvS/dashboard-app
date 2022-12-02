@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Param,
+  Patch,
+  Post,
+  UseFilters,
+} from '@nestjs/common';
+import { MongoExceptionFilter } from 'src/utils/mongo-exceptions.fillters';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
@@ -6,6 +15,7 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('/register')
+  @UseFilters(new MongoExceptionFilter())
   async registerUser(@Body() user) {
     return this.authService.createUser(user);
   }
@@ -16,6 +26,6 @@ export class AuthController {
   }
   @Delete('/delete-user/:id')
   async deleteUser(@Param('id') id: string) {
-    return this.authService.deleteUser(id);
+    await this.authService.deleteUser(id);
   }
 }

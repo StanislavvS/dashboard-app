@@ -22,7 +22,7 @@ export class User {
   @Prop({
     required: true,
     trim: true,
-    validate(value) {
+    validate(value: string) {
       const regex =
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 

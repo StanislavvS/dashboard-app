@@ -1,9 +1,8 @@
 import { Model } from 'mongoose';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './schemas/auth.schema';
 import { CreateUserDto, EditUserDto } from './dto/auth.dto';
-import { response, Response } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -14,16 +13,22 @@ export class AuthService {
   }
 
   async updateUser(updateUserDto: EditUserDto, id: string): Promise<User> {
-    const updatedUser = await this.userModel.findById(id);
-    const updates = Object.keys(updateUserDto);
+    const updatedUser = await this.userModel.findByIdAndUpdate(
+      id,
+      updateUserDto,
+    );
+    if (!updatedUser) {
+      throw new NotFoundException({ errorMessage: 'User not found' });
+    }
 
-    updates.forEach((update) => (updatedUser[update] = updateUserDto[update]));
-
-    return (await updatedUser).save();
+    return updatedUser;
   }
 
   async deleteUser(id: string): Promise<User> {
     const removedUser = await this.userModel.findByIdAndDelete(id);
+    if (!removedUser) {
+      throw new NotFoundException({ errorMessage: 'User not found' });
+    }
     return removedUser;
   }
 }
