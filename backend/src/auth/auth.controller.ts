@@ -7,7 +7,7 @@ import {
   Post,
   UseFilters,
 } from '@nestjs/common';
-import { MongoExceptionFilter } from 'src/utils/mongo-exceptions.fillters';
+import { MongoExceptionFilter } from '../utils/mongo-exceptions.fillters';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
