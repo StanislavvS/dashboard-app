@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  NotFoundException,
   Param,
   Patch,
   Post,
@@ -22,10 +23,20 @@ export class AuthController {
 
   @Patch('/edit-user/:id')
   async editUser(@Param('id') id: string, @Body() user) {
-    return this.authService.updateUser(user, id);
+    const updateUser = await this.authService.updateUser(user, id);
+
+    if (!updateUser) {
+      throw new NotFoundException({ errorMessage: 'User not found' });
+    }
+
+    return updateUser;
   }
   @Delete('/delete-user/:id')
   async deleteUser(@Param('id') id: string) {
-    await this.authService.deleteUser(id);
+    const deletedUser = await this.authService.deleteUser(id);
+
+    if (!deletedUser) {
+      throw new NotFoundException({ errorMessage: 'User not found' });
+    }
   }
 }

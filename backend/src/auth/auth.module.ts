@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthController } from './auth.controller';
+import { UsersRepository } from './auth.repository';
 import { AuthService } from './auth.service';
 import { User, UserSchema } from './schemas/auth.schema';
 import { encodePassword } from './utils/bcrypt';
@@ -23,6 +24,6 @@ import { encodePassword } from './utils/bcrypt';
     ]),
   ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, UsersRepository],
 })
 export class AuthModule {}

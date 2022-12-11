@@ -1,34 +1,20 @@
-import { Model } from 'mongoose';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { User, UserDocument } from './schemas/auth.schema';
+import { User } from './schemas/auth.schema';
 import { CreateUserDto, EditUserDto } from './dto/auth.dto';
+import { UsersRepository } from './auth.repository';
 
 @Injectable()
 export class AuthService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor(private readonly usersRepository: UsersRepository) {}
   async createUser(createUserDto: CreateUserDto): Promise<User> {
-    const createdUser = new this.userModel(createUserDto);
-    return createdUser.save();
+    return this.usersRepository.create(createUserDto);
   }
 
-  async updateUser(updateUserDto: EditUserDto, id: string): Promise<User> {
-    const updatedUser = await this.userModel.findByIdAndUpdate(
-      id,
-      updateUserDto,
-    );
-    if (!updatedUser) {
-      throw new NotFoundException({ errorMessage: 'User not found' });
-    }
-
-    return updatedUser;
+  async updateUser(updateUserDto: EditUserDto, _id: string): Promise<User> {
+    return this.usersRepository.findOneAndUpdate({ _id }, updateUserDto);
   }
 
-  async deleteUser(id: string): Promise<User> {
-    const removedUser = await this.userModel.findByIdAndDelete(id);
-    if (!removedUser) {
-      throw new NotFoundException({ errorMessage: 'User not found' });
-    }
-    return removedUser;
+  async deleteUser(_id: string): Promise<boolean> {
+    return this.usersRepository.findOneAndDelete({ _id });
   }
 }

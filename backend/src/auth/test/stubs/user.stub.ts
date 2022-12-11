@@ -1,8 +1,7 @@
-import mongoose, { Model } from 'mongoose';
-import { User, UserDocument } from 'src/auth/schemas/auth.schema';
+import mongoose from 'mongoose';
+import { User } from 'src/auth/schemas/auth.schema';
 
 const userOneId = new mongoose.Types.ObjectId();
-declare const UserModel: Model<UserDocument>;
 
 export const userOne = {
   _id: userOneId,
@@ -26,10 +25,4 @@ export const userTwo = {
 
 export const userStubTwo = (): User => {
   return userTwo;
-};
-
-export const setupDatabase = async () => {
-  await UserModel.deleteMany();
-  await new UserModel(userOne).save();
-  await new UserModel(userTwo).save();
 };

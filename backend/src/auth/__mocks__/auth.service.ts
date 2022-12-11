@@ -1,4 +1,4 @@
-import { userStubOne } from 'src/fixtures/db';
+import { userStubOne } from '../test/stubs/user.stub';
 
 export const AuthService = jest.fn().mockReturnValue({
   createUser: jest.fn().mockResolvedValue(userStubOne()),
