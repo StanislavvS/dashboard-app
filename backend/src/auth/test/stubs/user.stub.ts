@@ -1,6 +1,5 @@
-import mongoose, { Model } from 'mongoose';
-import { User, UserDocument } from 'src/auth/schemas/auth.schema';
-import { UserModel } from '../support/user.model';
+import mongoose from 'mongoose';
+import { User } from 'src/auth/schemas/auth.schema';
 
 export const userOneId = new mongoose.Types.ObjectId();
 
